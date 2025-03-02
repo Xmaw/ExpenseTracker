@@ -16,8 +16,7 @@ public class FindExpenses {
                 String[] transaction = line.split(";");
                 String info = transaction[5].toLowerCase();
                 String rawAmount = transaction[1];
-                if (info.contains(targetExpense)) {
-                    System.out.println(line);
+                if (info.contains(targetExpense.toLowerCase())) {
                     String cleanedUpAmount = cleanupTransactionInformation(rawAmount);
                     double amount = Double.parseDouble(cleanedUpAmount);
                     TransactionData transactionData = new TransactionData(info, amount);

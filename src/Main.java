@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Main {
     private static final List<String> foodStores = List.of("ica", "willys", "tempo");
+    private static final Map<String, Integer> headersIndexMapping = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         File file = new File("/Users/elias/IdeaProjects/banking/2025/january.csv");
@@ -18,7 +19,6 @@ public class Main {
         System.out.println(transactionList.size());
         String[] headers = transactionList.removeFirst().split(";");
 
-        Map<String, Integer> headersIndexMapping = new HashMap<>();
         //Bokföringsdag, belopp, avsändare, mottagare, namn, rubrik, saldo, valuta
         int index = 0;
         for (String header : headers) {
@@ -27,7 +27,7 @@ public class Main {
             index += 1;
         }
 
-        Food food = new Food();
+        Category food = new Category();
         for (String t : transactionList) {
             String[] transaction = t.split(";");
             String info = transaction[headersIndexMapping.get("rubrik")].toLowerCase();
@@ -49,5 +49,4 @@ public class Main {
     public static String cleanupTransactionInformation(String transaction) {
         return transaction.replace(",", ".");
     }
-
 }

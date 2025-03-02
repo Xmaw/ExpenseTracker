@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Food {
+public class Category {
     private double totalAmount;
     private List<TransactionData> transactionDataList;
-    public Food(){
+    public Category(){
         totalAmount = 0;
         transactionDataList = new ArrayList<>();
     }

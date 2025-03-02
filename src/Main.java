@@ -11,24 +11,25 @@ public class Main {
     public static void main(String[] args) throws IOException {
         File file = new File("/Users/elias/IdeaProjects/banking/2025/january.csv");
         Scanner scanner = new Scanner(file);
-        System.out.println(scanner.hasNext());
         ArrayList<String> transactionList = new ArrayList<>();
         while (scanner.hasNext()) {
             transactionList.add(scanner.nextLine());
         }
-        System.out.println(transactionList.size());
         String[] headers = transactionList.removeFirst().split(";");
 
         //Bokföringsdag, belopp, avsändare, mottagare, namn, rubrik, saldo, valuta
         int index = 0;
         for (String header : headers) {
-            System.out.println(header);
             headersIndexMapping.put(header.toLowerCase(), index);
             index += 1;
         }
 
+        Category food = getFoodTransactions(transactionList);
+    }
+
+    private static Category getFoodTransactions(ArrayList<String> transactionList) {
         Category food = new Category();
-        for (String t : transactionList) {
+        for (String t : new ArrayList<>(transactionList)) {
             String[] transaction = t.split(";");
             String info = transaction[headersIndexMapping.get("rubrik")].toLowerCase();
             String rawAmount = transaction[headersIndexMapping.get("belopp")];
@@ -38,12 +39,10 @@ public class Main {
             for (String foodStore : foodStores)
                 if (info.contains(foodStore)) {
                     food.addTransaction(transactionData);
+                    transactionList.remove(t);
                 }
         }
-        for (TransactionData transactionData : food.getTransactionDataList()) {
-            System.out.printf("Store: %s. Amount: %s\n", transactionData.getStore(), transactionData.getAmount());
-        }
-        System.out.println(food.getTotal());
+        return food;
     }
 
     public static String cleanupTransactionInformation(String transaction) {

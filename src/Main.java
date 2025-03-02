@@ -1,6 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
@@ -17,14 +15,20 @@ public class Main {
         }
         String[] headers = transactionList.removeFirst().split(";");
 
+        createHeaderMap(headers);
+
+        Category food = getFoodTransactions(transactionList);
+        System.out.println(food.getTotal());
+
+    }
+
+    private static void createHeaderMap(String[] headers) {
         //Bokföringsdag, belopp, avsändare, mottagare, namn, rubrik, saldo, valuta
         int index = 0;
         for (String header : headers) {
             headersIndexMapping.put(header.toLowerCase(), index);
             index += 1;
         }
-
-        Category food = getFoodTransactions(transactionList);
     }
 
     private static Category getFoodTransactions(ArrayList<String> transactionList) {
